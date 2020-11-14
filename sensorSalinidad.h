@@ -20,3 +20,5 @@ int loopSalinidad() {
   digitalWrite(salinity_power_pin, LOW);
   return map(adc0, 6, 26364, 0, 100);
 }
+
+//Programa realizado por Jordi Doménech y Joan Altur.
