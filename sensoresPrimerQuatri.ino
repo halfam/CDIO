@@ -1,9 +1,9 @@
+//Añadimos los otros programas.
 #include "sensorSalinidad.h"
 #include "sensorHumedad.h"
 
 
 void setup() {
-  // put your setup code here, to run once:
   setupHumedad();//cargamos la configuracion inicial del sensor de humedad
   setupSalinidad();//cargamos la configuracion inicial del sensor de salinidad
 }
@@ -24,3 +24,5 @@ void loop() {
   //
   delay(5000);
 }
+
+//Programa realizado por todos los integrantes del equipo y perfeccionado por Joan Altur.
