@@ -1,9 +1,7 @@
 #define salinity_power_pin 5
 #include <Wire.h>
-#include <Adafruit_ADS1015.h>
-#define pinADS1115sensorSalinidad 0
+#define PIN_ADS1115_SENSOR_SALINIDAD 0 
 
-Adafruit_ADS1115 ads1115(0x48); // construct an ads1115 at address 0x48
 void setupSalinidad() {
   Serial.begin(9600);
   ads1115.begin(); //Initialize ads1115
@@ -11,14 +9,23 @@ void setupSalinidad() {
   pinMode(salinity_power_pin, OUTPUT);
 }
 
+int result = 0;
+//
+//se manda una señal desde un pin de salida y desde un pin de entrada leemos
+//la tension que llega debe variar segun la resistencia del "conductor"
+//el agua no es conductora pero al echar sal (que si es conductora) recibiremos señal
 int loopSalinidad() {
-  // put your main code here, to run repeatedly:
   int16_t adc0;
   digitalWrite( salinity_power_pin, HIGH);
-  delay(1000);
-  adc0 = ads1115.readADC_SingleEnded(pinADS1115sensorSalinidad);
+  //
+  //leemos la tension que mide el cable
+  adc0 = ads1115.readADC_SingleEnded(PIN_ADS1115_SENSOR_SALINIDAD);
   digitalWrite(salinity_power_pin, LOW);
-  return map(adc0, 6, 26364, 0, 100);
+  //
+  //obtenemos el resultado en porcentaje a partir de las medias maximas y minimas
+  result = map(adc0, 6, 26364, 0, 100);
+  if( result == 1)//el progrmama muestra un "error" de 1% en el uso del sensor
+    result = 0;
+   
+  return result;
 }
-
-//Programa realizado por Jordi Doménech y Joan Altur.
