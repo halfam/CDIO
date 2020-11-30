@@ -18,10 +18,11 @@ void setup() {
   setupHumedad();//cargamos la configuracion inicial del sensor de humedad
   setupSalinidad();//cargamos la configuracion inicial del sensor de salinidad
   setupTemperatura();// cargamos la configuracion inial del sensor de temperatura
-  delay(1000);
+
 }
 
 void loop() {
+   delay(5000);
   //llamaremos a las funciones para ver los valores de los sensores cada 5 segundos
   //
   //mostramos el porcentaje de humedad actual
