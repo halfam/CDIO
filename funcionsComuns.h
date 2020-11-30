@@ -1,11 +1,13 @@
 int tamany =0;
 int resultat = 0;
+
+
 int media(int valor){
-  if(tamany < 100){
+  if(tamany < 10){
     resultat += valor;
     tamany++;
   }else{
-    return resultat/100;
+    return resultat/10;
   }
 }
 

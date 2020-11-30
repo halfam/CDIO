@@ -5,7 +5,6 @@
 #define SERIESRESISTOR 2200
  
 // El pin por el cual se conecta el sensor
-#define PIN_ADS1115_SENSOR_TEMPERATURA 2
 
 //constantes de operaciones
 #define CONSTANTE 7999.76
@@ -14,14 +13,11 @@
 //#define INCREMENTO 0.2045
  
 void setupTemperatura(void) {
-  Serial.begin(9600);
-  ads1115.begin();
-  ads1115.setGain(GAIN_ONE);
 }
  
-void loopTemperatura(void) {
+float leerTemperatura(Adafruit_ADS1115 address,int pin_canal_ads) {
   int16_t adc2;
-  adc2 = ads1115.readADC_SingleEnded(PIN_ADS1115_SENSOR_TEMPERATURA);
+  adc2 = address.readADC_SingleEnded(pin_canal_ads);
   float a = CONSTANTE * adc2; 
   float vo= a /CONSTANTE; //voltaje que leemos despues de pasar por la resistencia del ntc
   float temperatura = (vo - B*CONSTANTE)/(M*CONSTANTE);//obtenemos la temperatura a partir de la formula sacada anteriormente
