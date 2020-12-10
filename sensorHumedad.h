@@ -1,7 +1,5 @@
-
 #include <Wire.h>
 #include <Adafruit_ADS1015.h>
-
 
 const int AirValue = 30360;  // Medimos valor en seco (calibrado)
 int WaterValue = 17705;  // Medimos valor en agua (calibrado)

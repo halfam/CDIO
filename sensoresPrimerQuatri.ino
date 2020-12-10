@@ -2,10 +2,12 @@
 #include "sensorSalinidad.h"
 #include "sensorHumedad.h"
 #include "sensorTemperatura.h"
-// faltan las direcciones del pin #define PIN_ADS1115_SENSOR_SALINIDAD 0 en cada uno de los sensores
+#include "sensorLuminosidad.h"
+//definicion pin de conexiones al adc de cada sensor
 #define PIN_ADS1115_SENSOR_SALINIDAD 0 
 #define PIN_ADS1115_SENSOR_HUMEDAD 1 
 #define PIN_ADS1115_SENSOR_TEMPERATURA 2
+#define PIN_ADS1115_SENSOR_LUMINOSIDAD 3
 
 //llibreria per accedir a la memoria del sparkfun
 #include <EEPROM.h>
@@ -18,11 +20,10 @@ void setup() {
   setupHumedad();//cargamos la configuracion inicial del sensor de humedad
   setupSalinidad();//cargamos la configuracion inicial del sensor de salinidad
   setupTemperatura();// cargamos la configuracion inial del sensor de temperatura
-
+  setupLuminosidad();// cargamos la configuracion inial del sensor de luminosidad
 }
 
 void loop() {
-   delay(5000);
   //llamaremos a las funciones para ver los valores de los sensores cada 5 segundos
   //
   //mostramos el porcentaje de humedad actual
@@ -39,6 +40,15 @@ void loop() {
   Serial.print("Temperatura: ");
   Serial.print(leerTemperatura(ads1115, PIN_ADS1115_SENSOR_TEMPERATURA));
   Serial.println("º");
+  //
+  //mostramos los valores de luminosidad
+  int luminosidad = lecturaLuminosidad(ads1115, PIN_ADS1115_SENSOR_LUMINOSIDAD);
+  if(luminosidad == 0)
+    Serial.println("Dia soleado");
+  if(luminosidad == 1)
+    Serial.println("Dia nublado");
+  if(luminosidad == 2)
+    Serial.println("Noche");
   //
   //mandamos a dormir el dispositivo durante 5 segundos para ahorrar energia
   ESP.deepSleep(60*1000);
