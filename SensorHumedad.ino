@@ -8,7 +8,7 @@ SensorHumedad::SensorHumedad(int pin_canal_ads)
 void SensorHumedad::setADS(Adafruit_ADS1115 address){
    direccion= address;
 }
-int SensorHumedad::porcentaje() {
+int SensorHumedad::getPorcentajeHumedad() {
 //inicialitzacion variables
 int16_t adc;
 adc = direccion.readADC_SingleEnded(pinADS);
