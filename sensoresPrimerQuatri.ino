@@ -18,15 +18,18 @@
  SensorHumedad humedad( PIN_ADS1115_SENSOR_HUMEDAD);
  SensorSalinidad sal( PIN_ADS1115_SENSOR_SALINIDAD, 5);
  SensorTemperatura temperatura(PIN_ADS1115_SENSOR_TEMPERATURA);
+ SensorLuminosidad luminosidad(PIN_ADS1115_SENSOR_LUMINOSIDAD);
 void setup() {
+  
   Serial.begin(9600);
   ads1115.begin();
   ads1115.setGain(GAIN_ONE);
-  
+  pinMode(16, WAKEUP_PULLUP);
   
   humedad.setADS(ads1115);
   sal.setADS(ads1115);
   temperatura.setADS(ads1115);
+  luminosidad.setADS(ads1115);
  setupWifi();
 }
 
@@ -37,7 +40,7 @@ void loop() {
   //mostramos el porcentaje de humedad actual
   Serial.print("Porcentaje de humedad: ");
   //Serial.print(leerHumedad(ads1115, PIN_ADS1115_SENSOR_HUMEDAD));//nombre de la funcion cambiado y ahora es parametrizada
-  data[1] = String(humedad.porcentaje());
+  data[1] = String(humedad.getHumedad());
   Serial.print(data[1]);
   Serial.println("%");
   //
@@ -54,19 +57,20 @@ void loop() {
   Serial.println("º");
   //
   //mostramos los valores de luminosidad
-/*  int luminosidad = lecturaLuminosidad(ads1115, PIN_ADS1115_SENSOR_LUMINOSIDAD);
-  data[4] = String(luminosidad);
-  if(luminosidad == 0)
-    Serial.println("Dia soleado");
-  if(luminosidad == 1)
-    Serial.println("Dia nublado");
-  if(luminosidad == 2)
-    Serial.println("Noche");
-    */
+  int lumi = luminosidad.getLuminosidad();
+  //data[4] = String(lumi);
+  data[4] = String(lumi); 
   //
   //mandamos a dormir el dispositivo durante 5 segundos para ahorrar energia
-  //ESP.deepSleep(60*1000);
-  delay(5000);
-  HTTPGet( data, 4 );
-  loopWifi();
+  HTTPPost( data, 4 );
+  //loopWifi();
+  delay(3000);
+  WiFi.disconnect();
+  delay(2000);
+  ESP.deepSleep(5e6);
+  delay(1000);
+  //delay(3000);
+ 
+  
+
 }

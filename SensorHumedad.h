@@ -12,7 +12,7 @@ class SensorHumedad{
   public:
     SensorHumedad( int);
     void setADS(Adafruit_ADS1115);
-    int getPorcentajeHumedad();
+    int getHumedad();
     int getAirValue();
     int getWaterValue();
 };

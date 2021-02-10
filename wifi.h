@@ -1,4 +1,3 @@
-
 #include <ESP8266WiFi.h>
 
 // Comentar/Descomentar para ver mensajes de depuracion en monitor serie y/o respuesta del HTTP server
@@ -9,8 +8,8 @@
 //#define WiFi_CONNECTION_UPV
 
 // Selecciona que servidor REST quieres utilizar entre ThingSpeak y Dweet
-//#define REST_SERVER_THINGSPEAK //Selecciona tu canal para ver los datos en la web (https://thingspeak.com/channels/360979)
-#define REST_SERVER_DWEET //Selecciona tu canal para ver los datos en la web (http://dweet.io/follow/PruebaGTI)
+#define REST_SERVER_THINGSPEAK //Selecciona tu canal para ver los datos en la web (https://thingspeak.com/channels/360979)
+//#define REST_SERVER_DWEET //Selecciona tu canal para ver los datos en la web (http://dweet.io/follow/PruebaGTI)
 
 ///////////////////////////////////////////////////////
 /////////////// WiFi Definitions /////////////////////
@@ -49,13 +48,13 @@ WiFiClient client;
 
 #ifdef REST_SERVER_THINGSPEAK 
   const char Rest_Host[] = "api.thingspeak.com";
-  String MyWriteAPIKey="9OS5XBXFJV283GRD"; // Escribe la clave de tu canal ThingSpeak
+  String MyWriteAPIKey="8SQDBK9IZC6PJQXC"; // Escribe la clave de tu canal ThingSpeak
 #else 
   const char Rest_Host[] = "dweet.io";
   String MyWriteAPIKey="cdiocurso2020g04"; // Escribe la clave de tu canal Dweet
 #endif
 
-#define NUM_FIELDS_TO_SEND 2 //Numero de medidas a enviar al servidor REST (Entre 1 y 8)
+#define NUM_FIELDS_TO_SEND 4 //Numero de medidas a enviar al servidor REST (Entre 1 y 8)
 
 /////////////////////////////////////////////////////
 /////////////// Pin Definitions ////////////////
@@ -99,7 +98,7 @@ void connectWiFi()
 //////////////////////////////////////////////////////
 
 void HTTPPost(String fieldData[], int numFields){
-/*
+
 // Esta funcion construye el string de datos a enviar a ThingSpeak mediante el metodo HTTP POST
 // La funcion envia "numFields" datos, del array fieldData.
 // Asegurate de ajustar numFields al número adecuado de datos que necesitas enviar y activa los campos en tu canal web
@@ -137,7 +136,7 @@ void HTTPPost(String fieldData[], int numFields){
             #endif
         #endif
     }
-    */
+    
 }
 
 ////////////////////////////////////////////////////
@@ -162,7 +161,7 @@ void HTTPGet(String fieldData[], int numFields){
            for ( int field = 1; field < (numFields + 1); field++ ){
               PostData += "&field" + String( field ) + "=" + fieldData[ field ];
            }*/
-          PostData += "&humedad" + String(1) + "=" + fieldData[ 1 ];
+          PostData += "&humedad" + String(1)+ "=" + fieldData[ 1 ];
           PostData += "&salinidad" + String(2) + "=" + fieldData[2];
           PostData += "&temperatura" + String(3) + "=" + fieldData[3];
           PostData += "&luminosidad" + String(4) + "=" + fieldData[4];
@@ -232,11 +231,11 @@ void loopWifi() {
 
     //Selecciona si quieres enviar con GET(ThingSpeak o Dweet) o con POST(ThingSpeak)
     //HTTPPost( data, NUM_FIELDS_TO_SEND ); 
-    HTTPGet( data, NUM_FIELDS_TO_SEND );
+    HTTPPost( data, NUM_FIELDS_TO_SEND );
 
     //Selecciona si quieres un retardo de 15seg para hacer pruebas o dormir el SparkFun
-    delay( 15000 );   
+    //delay( 15000 );   
     //Serial.print( "Goodnight" );
-    //ESP.deepSleep( sleepTimeSeconds * 1000000 );
+    //ESP.deepSleep( 5 * 1000000 );
     
 }

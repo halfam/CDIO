@@ -8,20 +8,24 @@ SensorHumedad::SensorHumedad(int pin_canal_ads)
 void SensorHumedad::setADS(Adafruit_ADS1115 address){
    direccion= address;
 }
-int SensorHumedad::getPorcentajeHumedad() {
+int SensorHumedad::getHumedad() {
 //inicialitzacion variables
 int16_t adc;
 adc = direccion.readADC_SingleEnded(pinADS);
-//Serial.println(adc0);
+Serial.println(adc);
 //
 //la calibración tiene un 99% de precision por lo que los valores de porcentaje muestran
 //unos extremos de 101% y -1%, para evitar esos porcentajes hacemos un control de valores 
-if(waterValue > adc){
+return adc;
+if(waterValue < adc){
   waterValue = adc;  
+}
+if(airValue > adc){
+  airValue = adc;
 }
 
 
-return 100*airValue/(airValue-waterValue)-adc*100/(airValue-waterValue);
+//return 100*airValue/(airValue-waterValue)-adc*100/(airValue-waterValue);
 }
 int SensorHumedad::getWaterValue(){
   return waterValue;
